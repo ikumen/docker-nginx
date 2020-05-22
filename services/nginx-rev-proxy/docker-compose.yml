@@ -1,0 +1,15 @@
+version: '3.7'
+services:
+  nginx-rev-proxy:
+    build: .
+    image: nginx-rev-proxy
+    container_name: nginx-rev-proxy
+    restart: "no"
+    ports:
+      - "80:80"
+      - "443:443"
+
+networks:
+  default:
+    external:
+      name: ${NETWORK}
