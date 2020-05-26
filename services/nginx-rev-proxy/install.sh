@@ -10,10 +10,17 @@
 #   - parameterized network
 #   - uninstall option
 #
+
+# Grab the directory where this script is located and use that as working directory.
 # https://stackoverflow.com/a/246128
 WORKDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 export NETWORK="$(hostname)"
 
+# Get ready for installation.
+cd $WORKDIR
+
+# Pull the service name out of our docker compose file, and use it as the service name 
+# for systemd. 
 # https://stackoverflow.com/a/7451478 (gets line after services:)
 # https://unix.stackexchange.com/a/205854 (trims the line)
 # https://unix.stackexchange.com/a/187920 (removes the trailing ':')
@@ -28,7 +35,7 @@ SERVICE=${s%:} ${s##*}
 cd $WORKDIR && mkdir -p config/certs && cp ${CERTS_DIRECTORY:?}/* config/certs/
 /usr/bin/docker-compose -f docker-compose.yml up --no-start
 
-# Hook into systemd
+# If applicable, install our service into systemd
 SERVICE_FILE="/etc/systemd/system/${SERVICE}.service"
 if [ -f $SERVICE_FILE ]; then
   echo "${SERVICE} already installed to systemd!"
