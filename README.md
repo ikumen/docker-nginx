@@ -54,7 +54,9 @@ sudo apt install docker-compose
 
 #### Certbot (Let's Encrypt) for SSL Certificate
 
-I will be using [Let's Encrypt](https://letsencrypt.org/) as the certificate authority to create [SSL certificates](https://en.wikipedia.org/wiki/Public_key_certificate) for my [HTTPS services](https://en.wikipedia.org/wiki/HTTPS). I've only got one server and a couple domains to generate certificates for so I'll stick to the manual process.
+I will be using [Let's Encrypt](https://letsencrypt.org/) as the certificate authority to create [SSL certificates](https://en.wikipedia.org/wiki/Public_key_certificate) for my [HTTPS services](https://en.wikipedia.org/wiki/HTTPS). If you've ever generated certificates before, you'll know that the process can be extremely tedious and error prone (I'm looking at you [StartCom](https://en.wikipedia.org/wiki/StartCom)). The community has developed plenty of libraries and scripts to automate the process of registering and generating your certificates, the price you pay for all this automation, you'll need to let most of them run as root. I'm going to use [certbot](https://certbot.eff.org/)&mdash;which can run fully automated, but I'll be using it's manual option. I figure I only have one server and a couple domains to generate certs for so the manual option is no big deal. 
+
+First, if you don't already have certbot, go ahead and install it.
 
 ```bash
 sudo apt update
@@ -64,18 +66,29 @@ sudo apt update
 sudo apt install certbot
 ```
 
-We are not going to run `certbot` as root, so we won't be able to write to /var/log, instead run as local user and write to our local directories.
+The method I like to use is the manual, standalone dns challenge&mdash;you can run it on any computer and not just the server that will host the certificates, and you don't have to run it as root. To setup, we create the working directories for certbot.
+
 ```
 mkdir -p letsencrypt/config letsencrypt/work letsencrypt/logs
 cd letsencrypt
 ```
+We are now ready to generate our certificates, the overall process goes something like this:
 
-Running certbot in manual, standalone, with dns challenge
-```
-certbot certonly --manual --preferred-challenges dns --config-dir ./config --work-dir ./work --logs-dir ./logs
+1) enter your domains (_note: wildcards are supported e.g, *.yourdomain.com_)
+1) certbot will generate a challenge snippet of text
+1) you'll need to take that challenge text, and add it as a `TXT` record at your domain registry
+1) !!wait!! a couple of minutes for the registry to propagate the new `TXT` record
+1) continue certbot (e.g, "Enter to continue" )
+1) and if you followed all the instructions correctly, you should have your new certificate(s) under `config/live/<yourdomain.com>/`
+
+Here's the command to kick start the whole process:
+```bash
+certbot certonly \
+  --manual 
+  --preferred-challenges dns 
+  --config-dir ./config 
+  --work-dir ./work 
+  --logs-dir ./logs
 ```
 
-- answer the prompts, when listing domains, we can use wildcards (e.g *.domain.com)
-- we'll need to log into domains.google.com, and add the _acme.challenge.<ourdomain.com> `TXT` record
-- !!!IMPORTANT!!! after adding the `TXT` record, wait about 5-10mins for it to take effect before pressing "Enter to continue" with certbot
 
