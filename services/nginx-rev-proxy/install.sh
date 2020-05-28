@@ -10,29 +10,22 @@
 #   - parameterized network
 #   - uninstall option
 #
+source ../helpers
 
 # Grab the directory where this script is located and use that as working directory.
 # https://stackoverflow.com/a/246128
 WORKDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-export NETWORK="$(hostname)"
 
 # Get ready for installation.
 cd $WORKDIR
 
 # Pull the service name out of our docker compose file, and use it as the service name 
 # for systemd. 
-# https://stackoverflow.com/a/7451478 (gets line after services:)
-# https://unix.stackexchange.com/a/205854 (trims the line)
-# https://unix.stackexchange.com/a/187920 (removes the trailing ':')
-s=$(sed -n '/services:/{n;p;}' docker-compose.yml | awk '{$1=$1};1')
-SERVICE=${s%:} ${s##*}
+SERVICE="$(get_service_name $WORKDIR/docker-compose.yml)"
 
-# Create a Docker network (based on hostname)
-/usr/bin/docker network inspect $NETWORK >/dev/null 2>&1 || \
-  /usr/bin/docker network create --attachable --driver bridge $NETWORK
 
 # Build the container image
-cd $WORKDIR && mkdir -p config/certs && cp ${CERTS_DIRECTORY:?}/* config/certs/
+cd $WORKDIR && mkdir -p config/certs && cp ${CERTS_DIRECTORY:?}/*.pem config/certs/
 /usr/bin/docker-compose -f docker-compose.yml up --no-start
 
 # If applicable, install our service into systemd
@@ -57,4 +50,9 @@ ExecStop=/usr/bin/docker stop -t 2 ${SERVICE}
 WantedBy=multi-user.target
 EOL
 fi
- 
+
+# clean up
+rm config/certs/*.pem
+unset SERVICE_FILE
+unset SERVICE
+unset WORKDIR 
