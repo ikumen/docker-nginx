@@ -1,0 +1,23 @@
+version: '3.7'
+
+# Make the default network the upstream/external network given to us.
+networks:
+  default:
+    external:
+      name: ${NETWORK:?}
+
+services:
+  postgres-db:
+    build: .
+    image: postgres-db
+    container_name: postgres-db
+    restart: "no"
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB:-postgres}
+      - POSTGRES_USER=${POSTGRES_USER:-postgres}
+      # Required, see services/.secret
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:?}
+    volumes:
+      - "${POSTGRES_DATA_VOLUME:-/data/postgres}:/var/lib/postgresql/data"
+    ports:
+      - "${POSTGRES_SERVER_PORT:-5432}:5432"

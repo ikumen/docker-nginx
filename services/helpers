@@ -1,0 +1,13 @@
+# Pull the service name out of our docker compose file, and use it as the service name 
+# for systemd. 
+# https://stackoverflow.com/a/7451478 (gets line after services:)
+# https://unix.stackexchange.com/a/205854 (trims the line)
+# https://unix.stackexchange.com/a/187920 (removes the trailing ':')
+get_service_name () {
+  if [ -f "$1" ]; then
+    s=$(sed -n '/services:/{n;p;}' $1 | awk '{$1=$1};1')
+    echo ${s%:} ${s##*}
+  else
+    return -1
+  fi 
+}

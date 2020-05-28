@@ -1,0 +1,68 @@
+#!/bin/bash
+
+source .secrets
+
+# Grab the directory where this script is located and use that as working directory.
+# https://stackoverflow.com/a/246128
+BASE_WORKDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
+# Make sure we're in the correct directory, then load some helper functions
+cd $BASE_WORKDIR
+
+# Create a Docker network (base on hostname)
+export NETWORK="$(hostname)"
+/usr/bin/docker network inspect $NETWORK > /dev/null 2>&1 || \
+  /usr/bin/docker network create --attachable --driver bridge $NETWORK
+
+install_service () {
+  cd "$BASE_WORKDIR/$1"
+  if [ -f "install.sh" ]; then
+    echo "Installing service at: $BASE_WORKDIR/$1"
+    echo "$(. install.sh)"
+  else
+    echo "Nothing to install for $BASE_WORKDIR/$1"
+  fi
+  cd "$BASE_WORKDIR"
+}
+
+uninstall_service () {
+  systemctl stop $1
+  systemctl disable $1
+  rm "/etc/systemd/system/$1.service"
+  systemctl daemon-reload
+  systemctl reset-failed
+
+  docker stop $1
+  docker rm $1
+  docker rmi $1
+}
+
+install_all_services () {
+  cd "$BASE_WORKDIR"
+  for f in *; do
+    if [ -d "$f" ]; then
+      install_service $f  
+    fi
+  done
+}
+
+case "$1" in
+  '-i')
+    if [ -z "$2" ]; then
+      install_all_services
+    else
+      install_service $2
+    fi
+  ;;
+  '-u')
+    if [ -z "$2" ]; then
+      echo "Usage: service -u <service name>"
+    else
+      uninstall_service $2
+    fi
+  ;;
+  '*')
+    exit 1
+esac
+  
+

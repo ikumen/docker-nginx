@@ -1,0 +1,8 @@
+#!/bin/bash
+set -e
+
+psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
+  REVOKE CONNECT ON DATABASE $POSTGRES_DB FROM public;
+  REVOKE TEMPORARY ON DATABASE $POSTGRES_DB FROM public;
+  REVOKE ALL ON SCHEMA public FROM public;
+EOSQL
