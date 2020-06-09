@@ -5,6 +5,8 @@ services:
     image: nginx-rev-proxy
     container_name: nginx-rev-proxy
     restart: "no"
+    volumes:
+      - '/data/nginx/certs:/etc/nginx/certs'
     ports:
       - "80:80"
       - "443:443"
