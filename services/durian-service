@@ -46,6 +46,17 @@ install_all_services () {
   done
 }
 
+show_status () {
+  cd "$BASE_WORKDIR"
+  for f in *; do
+    if [ -f "$BASE_WORKDIR/$f/install.sh" ]; then
+      echo ""
+      systemctl status --lines 0 $f
+    fi
+  done
+  echo ""
+}
+
 case "$1" in
   '-i')
     if [ -z "$2" ]; then
@@ -60,6 +71,9 @@ case "$1" in
     else
       uninstall_service $2
     fi
+  ;;
+  '-s')
+    show_status
   ;;
   '*')
     exit 1
