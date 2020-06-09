@@ -1,0 +1,7 @@
+- following instructions to generate SSL certs
+- copy certs over to /data/nginx/certs 
+  - `sudo mkdir -p /data/nginx/certs && sudo cp letsencrypt/config/live/<domain>/\*.pem /data/nginx/certs/`
+- adjust the `config/` to your needs
+- install: `sudo ./durian-service -i nginx-rev-proxy`
+- check status: `sudo systemctl status nginx-rev-proxy` or `sudo ./durian-service -s`
+- uninstall: `sudo ./durian-service -u nginx-rev-proxy`
