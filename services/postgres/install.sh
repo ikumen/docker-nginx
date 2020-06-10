@@ -3,6 +3,7 @@
 # Builds the PostgreSQL database docker container and installs it as 
 # a systemd service.
 # 
+# TODO: add check for existing data, notify if it already exists
 source ../helpers
 
 # Grab the directory where this script is located and use that as working directory.

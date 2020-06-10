@@ -25,7 +25,6 @@ SERVICE="$(get_service_name $WORKDIR/docker-compose.yml)"
 
 
 # Build the container image
-cd $WORKDIR && mkdir -p config/certs && cp ${CERTS_DIRECTORY:?}/*.pem config/certs/
 /usr/bin/docker-compose -f docker-compose.yml up --no-start
 
 # If applicable, install our service into systemd

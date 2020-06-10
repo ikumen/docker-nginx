@@ -1,0 +1,2 @@
+- create postgres data directory `/data/postgres`
+- install `sudo POSTGRES_PASSWORD=... ./durian-service -i postgres`
