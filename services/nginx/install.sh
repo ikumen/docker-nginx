@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Builds the nginx-rev-proxy service (docker container) and install it
+# Builds the nginx service (docker container) and install it
 # as a systemd service.
 # 
 # TODO: 
@@ -35,7 +35,7 @@ else
   echo "Installing ${SERVICE} to systemd"
   cat > $SERVICE_FILE << EOL
 [Unit]
-Description=${NETWORK}'s Nginx reverse proxy service
+Description=${NETWORK}'s Nginx service
 After=docker.service
 Wants=network-online.target docker.socket
 Requires=docker.socket
@@ -51,7 +51,6 @@ EOL
 fi
 
 # clean up
-rm config/certs/*.pem
 unset SERVICE_FILE
 unset SERVICE
 unset WORKDIR 

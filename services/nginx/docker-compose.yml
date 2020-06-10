@@ -1,9 +1,9 @@
 version: '3.7'
 services:
-  nginx-rev-proxy:
+  nginx:
     build: .
-    image: nginx-rev-proxy
-    container_name: nginx-rev-proxy
+    image: nginx
+    container_name: nginx
     restart: "no"
     volumes:
       - '/data/nginx/certs:/etc/nginx/certs'

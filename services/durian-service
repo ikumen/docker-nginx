@@ -34,7 +34,7 @@ uninstall_service () {
 
   docker stop $1
   docker rm $1
-  docker rmi $1
+  docker rmi -f $1
 }
 
 install_all_services () {

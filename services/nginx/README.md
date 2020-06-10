@@ -1,5 +1,5 @@
-## Nginx Reverse Proxy Service
-`nginx-rev-proxy` service is just a basic [Nginx](//www.nginx.com) server that I've configured as a reverse proxy to my other services and provides the SSL layer for these services.
+## Nginx Service
+[Nginx](//www.nginx.com) server that I've configured as a reverse proxy to my other services and provides the SSL layer for these services.
 
 #### Prerequisites
 
@@ -21,13 +21,13 @@ Run the `durian-service` script to install our service.
 
 ```bash
 # Install only
-sudo ./durian-service -i nginx-rev-proxy
+sudo ./durian-service -i nginx
 
 # Start the service
-sudo systemctl start nginx-rev-proxy
+sudo systemctl start nginx
 
 # Check status
-sudo systemctl status nginx-rev-proxy
+sudo systemctl status nginx
 --or--
 sudo ./durian-service -s
 ```
@@ -35,5 +35,5 @@ sudo ./durian-service -s
 #### Uninstall
 
 ```bash
-sudo ./durian-service -u nginx-rev-proxy
+sudo ./durian-service -u nginx
 ```
