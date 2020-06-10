@@ -3,11 +3,28 @@
 # https://stackoverflow.com/a/7451478 (gets line after services:)
 # https://unix.stackexchange.com/a/205854 (trims the line)
 # https://unix.stackexchange.com/a/187920 (removes the trailing ':')
-get_service_name () {
+get_dc_service_name () {
   if [ -f "$1" ]; then
     s=$(sed -n '/services:/{n;p;}' $1 | awk '{$1=$1};1')
     echo ${s%:} ${s##*}
   else
     return -1
   fi 
+}
+
+get_yml_value () {
+  if [ -f "$1" ]; then
+    str=$(sed -n "/${2}:/{P;}" $1)
+    echo ${str##*:} |  sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'
+  else
+    return -1
+  fi
+}
+
+get_dc_container_name () {
+  echo $(get_yml_value $1 'container_name')
+}
+
+get_dc_image_name () {
+  echo $(get_yml_value $1 'image')
 }

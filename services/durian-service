@@ -26,15 +26,28 @@ install_service () {
 }
 
 uninstall_service () {
-  systemctl stop $1
-  systemctl disable $1
-  rm "/etc/systemd/system/$1.service"
+  SERVICE="$(get_dc_service_name $1/docker-compose.yml)"
+  CONTAINER_NAME="$(get_dc_container_name)"
+  IMAGE_NAME="$(get_dc_image_name)"
+
+  if [ -z $SERVICE || -z $CONTAINER_NAME || -z $IMAGE_NAME ]; then
+    echo "docker-compose invalid: service=$SERVICE, container=$CONTAINER_NAME, image=$IMAGE_NAME"
+    exit 1
+  fi
+
+  systemctl stop $SERVICE
+  systemctl disable $SERVICE
+  rm "/etc/systemd/system/$SERVICE.service"
   systemctl daemon-reload
   systemctl reset-failed
 
-  docker stop $1
-  docker rm $1
-  docker rmi -f $1
+  docker stop $CONTAINER_NAME
+  docker rm $CONTAINER_NAME
+  docker rmi -f $IMAGE_NAME
+
+  unset SERVICE
+  unset CONTAINER_NAME
+  unset IMAGE_NAME
 }
 
 install_all_services () {

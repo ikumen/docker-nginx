@@ -13,8 +13,11 @@ cd $WORKDIR
 
 # Pull the service name out of our docker compose file, and use it as the service name 
 # for systemd. 
-SERVICE="$(get_service_name $WORKDIR/docker-compose.yml)"
-
+SERVICE="$(get_dc_service_name $WORKDIR/docker-compose.yml)"
+if [ -z $SERVICE ]; then
+  echo "Could not determine service name"
+  exit 1
+fi
 
 # Build the container image
 /usr/bin/docker-compose -f docker-compose.yml up --no-start
