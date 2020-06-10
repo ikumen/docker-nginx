@@ -1,0 +1,24 @@
+version: '3.7'
+
+# Make the default network the upstream/external network given to us.
+networks:
+  default:
+    external:
+      name: ${NETWORK:?}
+
+services: 
+  kafka:
+    image: bitnami/kafka:2
+    container_name: kafka
+    ports:
+      - '9092:9092'
+    volumes:
+      - '/data/kafka:/bitnami'
+    environment:
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE=true
+      - KAFKA_CFG_LISTENERS=CLIENT://:9092
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CLIENT:PLAINTEXT
+      - KAFKA_CFG_ADVERTISED_LISTENERS=CLIENT://localhost:9092
+      - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=CLIENT

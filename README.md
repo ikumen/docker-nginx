@@ -8,7 +8,7 @@ I don't plan to document the hardware or operating system install, as both of th
 
 _Here's a peak at the little guy :-). I didn't have a case, so I jerry-rigged one._
 
-<img src="https://github.com/ikumen/durian-server/blob/master/images/IMG_20200514_161609.jpg" width="200"/> <img src="https://github.com/ikumen/durian-server/blob/master/images/IMG_20200514_161618.jpg" width="200"/> <img src="https://github.com/ikumen/durian-server/blob/master/images/IMG_20200514_161626.jpg" width="200"/>
+<img src="images/IMG_20200514_161609.jpg" width="200"/> <img src="images/IMG_20200514_161618.jpg" width="200"/> <img src="images/IMG_20200514_161626.jpg" width="200"/>
 
 
 ### Post OS Intall
@@ -102,7 +102,7 @@ The Diffie Hellman stuff is way over my head, but basically we need to create a 
 openssl genpkey -genparam -algorithm DH -out config/live/<yourdomain>/dhparam4096.pem -pkeyopt dh_paramgen_prime_len:4096
 ```
 
-After the certificates are all generated, we [need to copy them over](/ikumen/durian-server/tree/master/services/nginx#prerequisites) to `/var/nginx/certs` so they can be mounted them to our `nginx` container.
+After the certificates are all generated, we [need to copy them over](services/nginx#prerequisites) to `/var/nginx/certs` so they can be mounted them to our `nginx` container.
 
 ```bash
 sudo cp -R config/live/<your.domain>/*.pem  /var/nginx/certs/

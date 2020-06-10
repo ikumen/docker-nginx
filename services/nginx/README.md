@@ -3,7 +3,7 @@
 
 #### Prerequisites
 
-Follow the instructions on [generating SSL certs first](https://github.com/ikumen/durian-server#certbot-lets-encrypt-for-ssl-certificate), then come back here when done. After the certificates are generated, create the data directory to hold them&mdash;we'll eventually mount them as a volume for the container.
+Follow the instructions on [generating SSL certs first](../../#certbot-lets-encrypt-for-ssl-certificate), then come back here when done. After the certificates are generated, create the data directory to hold them&mdash;we'll eventually mount them as a volume for the container.
 
 ```bash
 sudo mkdir -p /data/nginx/certs
@@ -13,7 +13,7 @@ sudo chmod -R 700 /data/nginx
 
 #### Configure
 
-- modify the `config/nginx.conf` and `config/conf.d` to your needs
+Modify the `config/nginx.conf` and `config/conf.d` to your needs.
 
 #### Install
 
