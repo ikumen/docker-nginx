@@ -19,6 +19,13 @@ WORKDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 # Get ready for installation.
 cd $WORKDIR
 
+CERTS_DIR=${CERTS_DIR:?}
+export NGINX_DATA_DIR=${NGINX_DATA_DIR:-/data/nginx}
+mkdir -p "${NGINX_DATA_DIR}/config/certs"
+cp -R config/* "${NGINX_DATA_DIR}/config/"
+cp -L "${CERTS_DIR}/"* "${NGINX_DATA_DIR}/config/certs"
+chmod 700 -R $NGINX_DATA_DIR
+
 # Pull the service name out of our docker compose file, and use it as the service name 
 # for systemd. 
 SERVICE="$(get_dc_service_name $WORKDIR/docker-compose.yml)"
@@ -58,3 +65,4 @@ fi
 unset SERVICE_FILE
 unset SERVICE
 unset WORKDIR 
+unset NGINX_DATA_DIR

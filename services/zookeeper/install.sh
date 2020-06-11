@@ -12,7 +12,7 @@ WORKDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 cd $WORKDIR
 
 # TODO: source in env
-ZK_DATA_DIR=${ZK_DATA_DIR:-/data/zookeeper}
+export ZK_DATA_DIR=${ZK_DATA_DIR:-/data/zookeeper}
 mkdir -p $ZK_DATA_DIR
 chown -R '1001:root' $ZK_DATA_DIR
 
@@ -53,4 +53,5 @@ fi
 # clean up
 unset SERVICE_FILE
 unset SERVICE
-unset WORKDIR 
+unset WORKDIR
+unset ZK_DATA_DIR

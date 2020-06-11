@@ -1,5 +1,6 @@
 #!/bin/bash
 
+source ./helpers
 source .secrets
 
 # Grab the directory where this script is located and use that as working directory.
@@ -26,11 +27,11 @@ install_service () {
 }
 
 uninstall_service () {
-  SERVICE="$(get_dc_service_name $1/docker-compose.yml)"
-  CONTAINER_NAME="$(get_dc_container_name)"
-  IMAGE_NAME="$(get_dc_image_name)"
+  SERVICE="$(get_dc_service_name ${1}/docker-compose.yml)"
+  CONTAINER_NAME="$(get_dc_container_name ${1}/docker-compose.yml)"
+  IMAGE_NAME="$(get_dc_image_name ${1}/docker-compose.yml)"
 
-  if [ -z $SERVICE || -z $CONTAINER_NAME || -z $IMAGE_NAME ]; then
+  if [[ -z "$SERVICE" || -z "$CONTAINER_NAME" || -z "$IMAGE_NAME" ]]; then
     echo "docker-compose invalid: service=$SERVICE, container=$CONTAINER_NAME, image=$IMAGE_NAME"
     exit 1
   fi
