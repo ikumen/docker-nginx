@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Builds the Zookeeper docker container and installs it as a systemd service.
+# Builds the Solr docker container and installs it as a systemd service.
 # 
 source ../helpers
 
@@ -11,10 +11,9 @@ WORKDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 # Get ready for installation.
 cd $WORKDIR
 
-# TODO: source in env
-export ZK_DATA_DIR=${ZK_DATA_DIR:-/data/zookeeper}
-mkdir -p $ZK_DATA_DIR
-chown -R '1001:root' $ZK_DATA_DIR
+export SOLR_DATA_DIR=${SOLR_DATA_DIR:-/data/solr}
+mkdir -p ${SOLR_DATA_DIR}
+chown -R '8983:root' $SOLR_DATA_DIR
 
 # Pull the service name out of our docker compose file, and use it as the service name 
 # for systemd. 
@@ -23,7 +22,7 @@ if [ -z $SERVICE ]; then
   echo "Could not determine service name"
   exit 1
 fi
-  
+
 # Build the container image
 /usr/bin/docker-compose -f docker-compose.yml up --no-start
 
@@ -35,8 +34,8 @@ else
   echo "Installing ${SERVICE} to systemd"
   cat > $SERVICE_FILE << EOL
 [Unit]
-Description=${NETWORK}'s Zookeeper service
-After=docker.service
+Description=${NETWORK}'s Solr service
+After=zookeeper.service
 Wants=network-online.target docker.socket
 Requires=docker.socket
 
@@ -54,5 +53,5 @@ fi
 # clean up
 unset SERVICE_FILE
 unset SERVICE
-unset WORKDIR
-unset ZK_DATA_DIR
+unset WORKDIR 
+unset SOLR_DATA_DIR

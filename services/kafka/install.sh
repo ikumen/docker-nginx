@@ -35,7 +35,7 @@ else
   cat > $SERVICE_FILE << EOL
 [Unit]
 Description=${NETWORK}'s Kafka service
-After=docker.service
+After=zookeeper.service
 Wants=network-online.target docker.socket
 Requires=docker.socket
 
@@ -47,6 +47,7 @@ ExecStop=/usr/bin/docker stop -t 2 ${SERVICE}
 [Install]
 WantedBy=multi-user.target
 EOL
+  systemctl enable $SERVICE
 fi
 
 # clean up

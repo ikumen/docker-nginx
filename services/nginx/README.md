@@ -13,27 +13,40 @@ sudo chmod -R 700 /data/nginx
 
 #### Configure
 
-Modify the `config/nginx.conf` and `config/conf.d` to your needs.
+- requires `CERTS_DIR` environment variable that points to the certificates generated above
+- requires `NGINX_DATA_DIR` environment variable that points to the data directory for nginx
+- optional, modify `config/nginx.conf` and `config/conf.d` to your needs
 
-#### Install
-
-Run the `durian-service` script to install our service.
+### Install / Uninstall
 
 ```bash
-# Install only
+# Make sure we're in the services directory
+cd <durian-server>/services
+
+# Install the nginx service
 sudo ./durian-service -i nginx
 
 # Start the service
 sudo systemctl start nginx
 
-# Check status
+# Check the service status
 sudo systemctl status nginx
 --or--
 sudo ./durian-service -s
 ```
 
-#### Uninstall
+To uninstall
 
 ```bash
+cd <durian-server>/services
+
+# uninstall
 sudo ./durian-service -u nginx
 ```
+
+The data directory (`NGINX_DATA_DIR`) is left alone so you'll manually have to remove those.
+
+
+
+
+

@@ -13,7 +13,7 @@ services:
     ports:
       - '9092:9092'
     volumes:
-      - '${KAFKA_DATA_DIR}:/bitnami'
+      - '${KAFKA_DATA_DIR}:/bitnami/kafka'
     environment:
       - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
       - ALLOW_PLAINTEXT_LISTENER=yes

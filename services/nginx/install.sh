@@ -59,6 +59,7 @@ ExecStop=/usr/bin/docker stop -t 2 ${SERVICE}
 [Install]
 WantedBy=multi-user.target
 EOL
+  systemctl enable $SERVICE
 fi
 
 # clean up

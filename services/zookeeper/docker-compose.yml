@@ -13,6 +13,6 @@ services:
     ports:
       - '2181:2181'
     volumes:
-      - '${ZK_DATA_DIR}:/bitnami'
+      - '${ZK_DATA_DIR}:/bitnami/zookeeper'
     environment:
-      - ALLOW_ANONYMOUS_LOGIN=${ZK_ALLOW_ANONYMOUS_LOGIN:-no}
+      - ALLOW_ANONYMOUS_LOGIN=yes
