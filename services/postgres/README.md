@@ -1,38 +1,40 @@
 ## Postgres Service
-PostgreSQL server 
+[PostgreSQL](https://www.postgresql.org) server 
 
-#### Prerequisites
+### Configure
 
-Create the data directory.
+- requires a `POSTGRES_PASSWORD` environment variable for the super `postgres` admin password
+- requires a `POSTGRES_DATA_DIR` environment variable pointing to the directory where install script can create and mount to the container.
+- optional, add any initialization scripts to the `<postgres>/scripts` directory 
 
-```bash
-sudo mkdir /data/postgres
-sudo chmod -R 700 /data/postgres
-```
-
-#### Configure
-
-Add any initialization script to `scripts` directory.
-
-#### Install
-
-Run the `durian-service` script to install our service.
+### Install / Uninstall
 
 ```bash
-# Install only
-sudo POSTGRES_PASSWORD='...' ./durian-service -i postgres
+# Make sure we're in the services directory
+cd <durian-server>/services
+
+# Install the postgres service
+sudo ./durian-service -i postgres
+--or--
+sudo POSTGRES_DATA_DIR=... ./durian-service -i postgres
 
 # Start the service
 sudo systemctl start postgres
 
-# Check status
+# Check the service status
 sudo systemctl status postgres
 --or--
 sudo ./durian-service -s
 ```
 
-#### Uninstall
+To uninstall
 
 ```bash
+cd <durian-server>/services
+
+# uninstall
 sudo ./durian-service -u postgres
 ```
+
+The data directory (`POSTGRES_DATA_DIR`) is left alone so you'll manually have to remove those.
+

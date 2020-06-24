@@ -1,0 +1,17 @@
+version: '3.7'
+
+# Make the default network the upstream/external network given to us.
+networks:
+  default:
+    external:
+      name: ${NETWORK:?}
+
+services: 
+  solr:
+    image: library/solr:8.5.1
+    container_name: solr
+    restart: "no"
+    ports:
+      - '8983:8983'
+    volumes:
+      - '${SOLR_DATA_DIR}:/var/solr'

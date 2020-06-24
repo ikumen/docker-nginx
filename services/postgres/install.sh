@@ -13,6 +13,10 @@ WORKDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 # Get ready for installation.
 cd $WORKDIR
 
+export POSTGRES_DATA_DIR=${POSTGRES_DATA_DIR:-/data/postgres}
+mkdir -p "${POSTGRES_DATA_DIR}/scripts"
+cp scripts/* "${POSTGRES_DATA_DIR}/scripts/"
+
 # Pull the service name out of our docker compose file, and use it as the service name 
 # for systemd. 
 SERVICE="$(get_dc_service_name $WORKDIR/docker-compose.yml)"
@@ -45,6 +49,7 @@ ExecStop=/usr/bin/docker stop -t 2 ${SERVICE}
 [Install]
 WantedBy=multi-user.target
 EOL
+  systemctl enable $SERVICE
 fi
 
 # clean up

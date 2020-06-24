@@ -1,12 +1,13 @@
 version: '3.7'
 services:
   nginx:
-    build: .
-    image: nginx
+    image: nginx:alpine
     container_name: nginx
     restart: "no"
     volumes:
-      - '/data/nginx/certs:/etc/nginx/certs'
+      - '${NGINX_DATA_DIR:?}/config/certs:/etc/nginx/certs'
+      - '${NGINX_DATA_DIR}/config/nginx.conf:/etc/nginx/nginx.conf'
+      - '${NGINX_DATA_DIR}/config/conf.d:/etc/nginx/conf.d'
     ports:
       - "80:80"
       - "443:443"

@@ -15,7 +15,7 @@ get_dc_service_name () {
 get_yml_value () {
   if [ -f "$1" ]; then
     str=$(sed -n "/${2}:/{P;}" $1)
-    echo ${str##*:} |  sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'
+    echo ${str#*:} |  sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'
   else
     return -1
   fi

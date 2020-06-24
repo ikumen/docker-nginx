@@ -11,6 +11,10 @@ WORKDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 # Get ready for installation.
 cd $WORKDIR
 
+export KAFKA_DATA_DIR=${KAFKA_DATA_DIR:-/data/kafka}
+mkdir -p ${KAFKA_DATA_DIR}
+chown -R '1001:root' ${KAFKA_DATA_DIR}
+
 # Pull the service name out of our docker compose file, and use it as the service name 
 # for systemd. 
 SERVICE="$(get_dc_service_name $WORKDIR/docker-compose.yml)"
@@ -31,7 +35,7 @@ else
   cat > $SERVICE_FILE << EOL
 [Unit]
 Description=${NETWORK}'s Kafka service
-After=docker.service
+After=zookeeper.service
 Wants=network-online.target docker.socket
 Requires=docker.socket
 
@@ -43,9 +47,11 @@ ExecStop=/usr/bin/docker stop -t 2 ${SERVICE}
 [Install]
 WantedBy=multi-user.target
 EOL
+  systemctl enable $SERVICE
 fi
 
 # clean up
 unset SERVICE_FILE
 unset SERVICE
 unset WORKDIR 
+unset KAFKA_DATA_DIR
