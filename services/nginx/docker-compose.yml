@@ -8,6 +8,8 @@ services:
       - '${NGINX_DATA_DIR:?}/config/certs:/etc/nginx/certs'
       - '${NGINX_DATA_DIR}/config/nginx.conf:/etc/nginx/nginx.conf'
       - '${NGINX_DATA_DIR}/config/conf.d:/etc/nginx/conf.d'
+      # used by tlrl.gnoht.com.conf, just need it to be readable
+      - '${ARCHIVE_DIR:?}:/data/archive'
     ports:
       - "80:80"
       - "443:443"
