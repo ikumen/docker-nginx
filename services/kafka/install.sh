@@ -11,9 +11,9 @@ WORKDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 # Get ready for installation.
 cd $WORKDIR
 
-export KAFKA_DATA_DIR=${KAFKA_DATA_DIR:-/data/kafka}
-mkdir -p ${KAFKA_DATA_DIR}
-chown -R '1001:root' ${KAFKA_DATA_DIR}
+export KAFKA_HOST_DATA_DIR=${KAFKA_HOST_DATA_DIR:?}
+mkdir -p ${KAFKA_HOST_DATA_DIR}
+chown -R '${KAFKA_PROCESS_USER}:root' ${KAFKA_HOST_DATA_DIR}
 
 # Pull the service name out of our docker compose file, and use it as the service name 
 # for systemd. 

@@ -4,7 +4,7 @@
 
 ### Configure
 
-- requires a `KAFKA_DATA_DIR` environment variable pointing to the directory where install script can create and mount to the container.
+- requires a `KAFKA_HOST_DATA_DIR` environment variable pointing to the directory where install script can create and mount to the container.
 
 ### Install / Uninstall
 

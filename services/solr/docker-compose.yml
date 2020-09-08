@@ -14,4 +14,4 @@ services:
     ports:
       - '8983:8983'
     volumes:
-      - '${SOLR_DATA_DIR}:/var/solr'
+      - '${SOLR_HOST_DATA_DIR}:/var/solr'

@@ -11,9 +11,9 @@ WORKDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 # Get ready for installation.
 cd $WORKDIR
 
-export SOLR_DATA_DIR=${SOLR_DATA_DIR:-/data/solr}
-mkdir -p ${SOLR_DATA_DIR}
-chown -R '8983:root' $SOLR_DATA_DIR
+export SOLR_HOST_DATA_DIR=${SOLR_HOST_DATA_DIR:?}
+mkdir -p ${SOLR_HOST_DATA_DIR}
+chown -R "${SOLR_PROCESS_USER:?}:root" $SOLR_HOST_DATA_DIR
 
 # Pull the service name out of our docker compose file, and use it as the service name 
 # for systemd. 

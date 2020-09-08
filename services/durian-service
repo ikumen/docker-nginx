@@ -1,7 +1,10 @@
 #!/bin/bash
 
+set -a
+. default.env
+. local.env
+set +a
 source ./helpers
-source .secrets
 
 # Grab the directory where this script is located and use that as working directory.
 # https://stackoverflow.com/a/246128

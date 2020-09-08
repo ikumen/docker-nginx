@@ -20,9 +20,9 @@ WORKDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 cd $WORKDIR
 
 CERTS_DIR=${CERTS_DIR:?}
-mkdir -p "${NGINX_DATA_DIR:?}/config/certs" "${NGINX_DATA_DIR:?}/config/conf.d"
-cp -R config/* "${NGINX_DATA_DIR}/config/"
-cp -L "${CERTS_DIR}/"* "${NGINX_DATA_DIR}/config/certs"
+mkdir -p "${NGINX_HOST_DATA_DIR:?}/config/certs" "${NGINX_HOST_DATA_DIR:?}/config/conf.d"
+cp -R config/* "${NGINX_HOST_DATA_DIR}/config/"
+cp -L "${CERTS_DIR}/"* "${NGINX_HOST_DATA_DIR}/config/certs"
 
 # Pull the service name out of our docker compose file, and use it as the service name 
 # for systemd. 

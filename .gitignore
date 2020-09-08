@@ -1,3 +1,4 @@
 **/*.pem
 .secrets
 **/*.swp
+**/local.env

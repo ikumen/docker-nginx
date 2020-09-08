@@ -12,9 +12,9 @@ WORKDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 cd $WORKDIR
 
 # TODO: source in env
-export ZK_DATA_DIR=${ZK_DATA_DIR:-/data/zookeeper}
-mkdir -p $ZK_DATA_DIR
-chown -R '1001:root' $ZK_DATA_DIR
+export ZK_HOST_DATA_DIR=${ZK_HOST_DATA_DIR:?}
+mkdir -p $ZK_HOST_DATA_DIR
+chown -R "${ZK_PROCESS_USER:?}:root" $ZK_HOST_DATA_DIR
 
 # Pull the service name out of our docker compose file, and use it as the service name 
 # for systemd. 
