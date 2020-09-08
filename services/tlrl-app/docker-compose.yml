@@ -1,0 +1,34 @@
+version: '3.7'
+
+networks:
+  default:
+    external:
+      name: ${NETWORK:?}
+
+services:
+  tlrl-app:
+    build: 
+      context: ${TLRL_SOURCE_DIR:?}
+      args: 
+        - TLRL_SKIP_TESTS=${TLRL_SKIP_TESTS:?}
+        - TLRL_TARGET_DB=${TLRL_TARGET_DB:?}
+        - TLRL_SPRING_PROFILES=${TLRL_SPRING_PROFILES:?}
+    image: tlrl-app
+    container_name: tlrl-app
+    environment: 
+      - TLRL_TARGET_DB=${TLRL_TARGET_DB:?}
+      - TLRL_SPRING_PROFILES=${TLRL_SPRING_PROFILES:?}
+      - TLRL_KAFKA_BROKERS=${TLRL_KAFKA_BROKERS:?}
+      - TLRL_SOLR_SERVER=${TLRL_SOLR_SERVER:?}
+      - TLRL_DB_NAME=${TLRL_DB_NAME:?}
+      - TLRL_DB_USER=${TLRL_DB_USER:?}
+      # postgres specific
+      - TLRL_DB_USER_PASSWORD=${TLRL_DB_USER_PASSWORD:?}
+      - TLRL_DB_SERVER_HOSTNAME=${TLRL_DB_SERVER_HOSTNAME:?}
+      - TLRL_DB_SERVER_PORT=${TLRL_DB_SERVER_PORT:?}
+      - TLRL_DB_DDL_AUTO=${TLRL_DB_DDL_AUTO:-none}
+    ports: 
+      - "8080:8080"
+
+
+

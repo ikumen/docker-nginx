@@ -1,0 +1,21 @@
+version: '3.7'
+
+networks:
+  default:
+    external:
+      name: ${NETWORK:?}
+
+services:
+  tlrl-fetcher:
+    build:
+      context: ${TLRL_SOURCE_DIR:?}/fetcher
+    image: tlrl-fetcher
+    container_name: tlrl-fetcher
+    entrypoint: ["./start-after.sh", "${TLRL_KAFKA_BROKERS:?}", "tlrl-app:8080"]
+    environment: 
+      - FETCHER_LOG_LVL=${FETCHER_LOG_LVL:?}
+      - FETCHER_KAFKA_BROKERS=${FETCHER_KAFKA_BROKERS:?}
+      - FETCHER_SOLR_SERVER=${FETCHER_SOLR_SERVER:?}
+    volumes:
+      - "${ARCHIVE_HOST_DATA_DIR}:/data/archive"
+    
