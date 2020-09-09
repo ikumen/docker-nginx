@@ -15,7 +15,7 @@ services:
       - '8983:8983'
     volumes:
       - '${SOLR_HOST_DATA_DIR}:/var/solr'
-      - '${SOLR_HOST_DATA_DIR}/data/tlrl/data:/var/solr/data/tlrl/data'
+      - '${SOLR_HOST_DATA_DIR}/data:/var/solr/data/tlrl/data'
       - './config/tlrl/conf:/var/solr/data/tlrl/conf'
       - './config/tlrl/core.properties:/var/solr/data/tlrl/core.properties'
 

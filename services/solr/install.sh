@@ -12,7 +12,7 @@ WORKDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 cd $WORKDIR
 
 export SOLR_HOST_DATA_DIR=${SOLR_HOST_DATA_DIR:?}
-mkdir -p ${SOLR_HOST_DATA_DIR}
+mkdir -p "${SOLR_HOST_DATA_DIR}/data"
 chown -R "${SOLR_PROCESS_USER:?}:root" $SOLR_HOST_DATA_DIR
 
 # Pull the service name out of our docker compose file, and use it as the service name 
