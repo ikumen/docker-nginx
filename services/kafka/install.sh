@@ -13,7 +13,7 @@ cd $WORKDIR
 
 export KAFKA_HOST_DATA_DIR=${KAFKA_HOST_DATA_DIR:?}
 mkdir -p ${KAFKA_HOST_DATA_DIR}
-chown -R '${KAFKA_PROCESS_USER}:root' ${KAFKA_HOST_DATA_DIR}
+chown -R "${KAFKA_PROCESS_USER}:root" ${KAFKA_HOST_DATA_DIR}
 
 # Pull the service name out of our docker compose file, and use it as the service name 
 # for systemd. 
