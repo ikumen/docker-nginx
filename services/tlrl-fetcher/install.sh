@@ -30,7 +30,7 @@ else
   echo "Installing ${SERVICE} to systemd"
   cat > $SERVICE_FILE << EOL
 [Unit]
-Description=${NETWORK}'s Kafka service
+Description=${NETWORK}'s tlrl-fetcher service
 After=tlrl-app.service
 Wants=network-online.target docker.socket
 Requires=docker.socket

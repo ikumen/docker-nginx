@@ -13,6 +13,11 @@ services:
     restart: "no"
     environment:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:?}
+      - TLRL_DB_NAME=${TLRL_DB_NAME:?}
+      - TLRL_DB_ADMIN=${TLRL_DB_ADMIN:?}
+      - TLRL_DB_ADMIN_PASSWORD=${TLRL_DB_ADMIN_PASSWORD:?}
+      - TLRL_DB_USER=${TLRL_DB_USER:?}
+      - TLRL_DB_USER_PASSWORD=${TLRL_DB_USER_PASSWORD:?}
     volumes:
       - "${POSTGRES_HOST_DATA_DIR:?}/pgdata:/var/lib/postgresql/data"
       - "${POSTGRES_HOST_DATA_DIR}/scripts:/docker-entrypoint-initdb.d"
