@@ -10,6 +10,7 @@ services:
       - '${NGINX_HOST_DATA_DIR}/config/conf.d:/etc/nginx/conf.d'
       # used by tlrl.gnoht.com.conf, just need it to be readable
       - '${ARCHIVE_HOST_DATA_DIR:?}:/data/archive'
+      - /data/www:/data/www
     ports:
       - "80:80"
       - "443:443"
