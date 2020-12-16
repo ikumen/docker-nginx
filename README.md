@@ -105,7 +105,8 @@ openssl genpkey -genparam -algorithm DH -out config/live/<yourdomain>/dhparam409
 After the certificates are all generated, we [need to copy them over](services/nginx#prerequisites) to `/var/nginx/certs` so they can be mounted them to our `nginx` container.
 
 ```bash
-sudo cp -R config/live/<your.domain>/*.pem  /var/nginx/certs/
+# you may need to clear out the old certs
+sudo cp -L -R config/live/<your.domain>/*.pem  /data/nginx/config/certs/
 ```
 
 ### Services
